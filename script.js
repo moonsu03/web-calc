@@ -1,20 +1,22 @@
+function approximation(num) {
+  return num;
+}
+
 function add(a, b) {
-  return a + b;
+  return approximation(a + b);
 }
 
 function substract(a, b) {
-  return a - b;
+  return approximation(a - b);
 }
 
 function multiply(a, b) {
-  return a * b;
+  return approximation(a * b);
 }
 
 function divide(a, b) {
-  return a / b;
+  return approximation(a / b);
 }
-
-let firstNum, secondNum, operator;
 
 function operate(firstNum, secondNum, operator) {
   if (operator == "+") {
@@ -38,12 +40,13 @@ function refreshValue() {
   const numberContainer = document.querySelectorAll(".digits button"); //pls look more into css ancestor rules but this idea works so its fine
   const operateContainer = document.querySelectorAll(".operators button");
   var storeValue = displayValue;
+  let elementIndicator = 0;
 
   numberContainer.forEach((element) => {
     //click something something
     element.addEventListener("click", () => {
       //console.log(element.textContent)
-      if (displayValue == "0") {
+      if (displayValue == "0" || elementIndicator == 1) {
         displayValue = `${element.textContent}`;
       } else {
         displayValue += `${element.textContent}`;
@@ -53,7 +56,7 @@ function refreshValue() {
     });
   });
 
-  elementSave = [];
+  const elementSave = [];
 
   operateContainer.forEach((element) => {
     element.addEventListener("click", () => {
@@ -75,7 +78,10 @@ function refreshValue() {
       }
       if (elementSave[0] == "=") {
         elementSave.shift();
+        console.log("elementSave[0] == =");
+        elementIndicator++;
       } else {
+        elementIndicator = 0;
         storeValue = displayValue;
 
         display.textContent = displayValue;
