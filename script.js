@@ -31,11 +31,13 @@ function operate(firstNum, secondNum, operator) {
 function refreshValue() {
   const display = document.querySelector(".result");
 
-  let displayValue = "0";
+  var displayValue = "0";
 
   display.textContent = displayValue;
 
   const numberContainer = document.querySelectorAll(".digits button"); //pls look more into css ancestor rules but this idea works so its fine
+  const operateContainer = document.querySelectorAll(".operators button");
+  var storeValue = displayValue;
 
   numberContainer.forEach((element) => {
     //click something something
@@ -47,11 +49,39 @@ function refreshValue() {
         displayValue += `${element.textContent}`;
       }
       display.textContent = displayValue;
-      //console.log(displayValue);
+      console.log(`display value = ${displayValue}`);
     });
   });
 
-  return displayValue;
+  elementSave = [];
+
+  operateContainer.forEach((element) => {
+    element.addEventListener("click", () => {
+      elementSave.push(element.textContent);
+      console.log(storeValue, displayValue, element.textContent);
+
+      console.log(
+        `STORE value = ${storeValue}`,
+        `display value = ${displayValue}`,
+        `eS =  ${elementSave}`
+      );
+
+      if (elementSave.length >= 2) {
+        console.log(storeValue, displayValue, elementSave[0], "ok");
+        displayValue = operate(+storeValue, +displayValue, elementSave[0]);
+        console.log(displayValue, "ok");
+        
+      } else {
+        storeValue = displayValue;
+        //
+
+        displayValue = 0;
+      }
+      display.textContent = displayValue;
+
+      //console.log(storeValue.textContent);
+    });
+  });
 }
 
 refreshValue();
