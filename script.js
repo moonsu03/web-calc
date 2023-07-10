@@ -1,5 +1,5 @@
 function approximation(num) {
-  return num;
+  return +`${num.toPrecision(5)}`.substring(0, 10);
 }
 
 function add(a, b) {
@@ -10,6 +10,7 @@ function substract(a, b) {
   return approximation(a - b);
 }
 
+3
 function multiply(a, b) {
   return approximation(a * b);
 }
