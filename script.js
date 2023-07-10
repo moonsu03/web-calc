@@ -66,18 +66,22 @@ function refreshValue() {
         `eS =  ${elementSave}`
       );
 
-      if (elementSave.length >= 2) {
-        console.log(storeValue, displayValue, elementSave[0], "ok");
+      if (elementSave.length == 2) {
+        console.log(storeValue, displayValue, elementSave, "ok");
         displayValue = operate(+storeValue, +displayValue, elementSave[0]);
         console.log(displayValue, "ok");
-        
+        elementSave.shift();
+        display.textContent = displayValue;
+      }
+      if (elementSave[0] == "=") {
+        elementSave.shift();
       } else {
         storeValue = displayValue;
-        //
+
+        display.textContent = displayValue;
 
         displayValue = 0;
       }
-      display.textContent = displayValue;
 
       //console.log(storeValue.textContent);
     });
