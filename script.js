@@ -29,7 +29,12 @@ function operate(firstNum, secondNum, operator) {
   } else if (operator == "*") {
     return multiply(firstNum, secondNum);
   } else if (operator == "/") {
-    return divide(firstNum, secondNum);
+    if (secondNum == 0) {
+      alert("You can't do that");
+      return 0;
+    } else {
+      return divide(firstNum, secondNum);
+    }
   }
 }
 
