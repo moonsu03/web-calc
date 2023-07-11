@@ -1,5 +1,7 @@
 function approximation(num) {
-  return +`${num.toPrecision(5)}`.substring(0, 10);
+  num = num.toPrecision(5);
+  num = num.substring(0, 10);
+  return +num;
 }
 
 function add(a, b) {
@@ -10,7 +12,7 @@ function substract(a, b) {
   return approximation(a - b);
 }
 
-3
+3;
 function multiply(a, b) {
   return approximation(a * b);
 }
@@ -45,10 +47,13 @@ function refreshValue() {
 
   numberContainer.forEach((element) => {
     //click something something
+
     element.addEventListener("click", () => {
       //console.log(element.textContent)
-      if (displayValue == "0" || elementIndicator == 1) {
+
+      if (displayValue == "0" || elementIndicator >= 1) {
         displayValue = `${element.textContent}`;
+        elementIndicator = 0;
       } else {
         displayValue += `${element.textContent}`;
       }
@@ -57,7 +62,15 @@ function refreshValue() {
     });
   });
 
-  const elementSave = [];
+  let elementSave = [];
+
+  const clearButton = document.querySelector(".clear");
+  clearButton.addEventListener("click", () => {
+    (displayValue = 0), (storeValue = 0), (elementIndicator = 0);
+    console.log("clear button pressed");
+    display.textContent = 0;
+    elementSave = [];
+  });
 
   operateContainer.forEach((element) => {
     element.addEventListener("click", () => {
