@@ -1,6 +1,5 @@
 function approximation(num) {
-  num = num.toPrecision(5);
-  num = num.substring(0, 10);
+  num = num.toFixed(3);
   return +num;
 }
 
@@ -60,7 +59,11 @@ function refreshValue() {
         displayValue = `${element.textContent}`;
         elementIndicator = 0;
       } else {
-        displayValue += `${element.textContent}`;
+        if (displayValue.length >= 10) {
+          //displayValue.substring(0, 10);
+        } else {
+          displayValue += `${element.textContent}`;
+        }
       }
       display.textContent = displayValue;
       console.log(`display value = ${displayValue}`);
@@ -95,6 +98,7 @@ function refreshValue() {
         elementSave.shift();
         display.textContent = displayValue;
       }
+
       if (elementSave[0] == "=") {
         elementSave.shift();
         console.log("elementSave[0] == =");
@@ -108,6 +112,16 @@ function refreshValue() {
         displayValue = 0;
       }
 
+      if (`${displayValue}`.length > 10 && elementIndicator >= 1) {
+        alert(`${displayValue}`.length);
+        displayValue = `${displayValue}`.substring(0, 10);
+        displayValue = +displayValue;
+        alert(
+          
+          "display overflow! the first 10 characters now are the display value"
+        );
+        display.textContent = displayValue;
+      }
       //console.log(storeValue.textContent);
     });
   });
