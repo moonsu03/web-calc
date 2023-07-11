@@ -44,29 +44,22 @@ function refreshValue() {
 
   display.textContent = displayValue;
 
-  const numberContainer = document.querySelectorAll(".digits button"); //pls look more into css ancestor rules but this idea works so its fine
+  const numberContainer = document.querySelectorAll(".digits button");
   const operateContainer = document.querySelectorAll(".operators button");
   var storeValue = displayValue;
   let elementIndicator = 0;
 
   numberContainer.forEach((element) => {
-    //click something something
-
     element.addEventListener("click", () => {
-      //console.log(element.textContent)
-
-      if (displayValue == "0" || elementIndicator >= 1) {
+      if (displayValue == "0" || elementIndicator > 0) {
         displayValue = `${element.textContent}`;
         elementIndicator = 0;
       } else {
-        if (displayValue.length >= 10) {
-          //displayValue.substring(0, 10);
-        } else {
+        if (displayValue.length < 10) {
           displayValue += `${element.textContent}`;
         }
       }
       display.textContent = displayValue;
-      console.log(`display value = ${displayValue}`);
     });
   });
 
@@ -75,7 +68,6 @@ function refreshValue() {
   const clearButton = document.querySelector(".clear");
   clearButton.addEventListener("click", () => {
     (displayValue = 0), (storeValue = 0), (elementIndicator = 0);
-    console.log("clear button pressed");
     display.textContent = 0;
     elementSave = [];
   });
@@ -83,25 +75,15 @@ function refreshValue() {
   operateContainer.forEach((element) => {
     element.addEventListener("click", () => {
       elementSave.push(element.textContent);
-      console.log(storeValue, displayValue, element.textContent);
-
-      console.log(
-        `STORE value = ${storeValue}`,
-        `display value = ${displayValue}`,
-        `eS =  ${elementSave}`
-      );
 
       if (elementSave.length == 2) {
-        console.log(storeValue, displayValue, elementSave, "ok");
         displayValue = operate(+storeValue, +displayValue, elementSave[0]);
-        console.log(displayValue, "ok");
         elementSave.shift();
         display.textContent = displayValue;
       }
 
       if (elementSave[0] == "=") {
         elementSave.shift();
-        console.log("elementSave[0] == =");
         elementIndicator++;
       } else {
         elementIndicator = 0;
@@ -112,17 +94,14 @@ function refreshValue() {
         displayValue = 0;
       }
 
-      if (`${displayValue}`.length > 10 && elementIndicator >= 1) {
-        alert(`${displayValue}`.length);
+      if (`${displayValue}`.length > 10 && elementIndicator > 0) {
         displayValue = `${displayValue}`.substring(0, 10);
         displayValue = +displayValue;
         alert(
-          
-          "display overflow! the first 10 characters now are the display value"
+          "Display overflow! The first 10 characters are the display value now"
         );
         display.textContent = displayValue;
       }
-      //console.log(storeValue.textContent);
     });
   });
 }
