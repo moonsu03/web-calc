@@ -72,6 +72,14 @@ function refreshValue() {
     elementSave = [];
   });
 
+  const pointContainer = document.querySelector(".point");
+  pointContainer.addEventListener("click", () => {
+    if (displayValue.length < 8 && displayValue.indexOf(".") == -1) {
+      displayValue += `.`;
+      display.textContent = displayValue;
+    }
+  });
+
   operateContainer.forEach((element) => {
     element.addEventListener("click", () => {
       elementSave.push(element.textContent);
@@ -98,7 +106,7 @@ function refreshValue() {
         displayValue = `${displayValue}`.substring(0, 10);
         displayValue = +displayValue;
         alert(
-          "Display overflow! The first 10 characters are the display value now"
+          "Display overflow! (due to the floating point number or the really large by absolute value number) The first 10 characters are the display value now"
         );
         display.textContent = displayValue;
       }
