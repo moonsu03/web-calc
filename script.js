@@ -1,5 +1,6 @@
 function approximation(num) {
-  num = num.toFixed(3);
+  num = +num;
+  num = num.toFixed(5);
   return +num;
 }
 
@@ -37,6 +38,11 @@ function operate(firstNum, secondNum, operator) {
   }
 }
 
+function overflowControl(num) {
+  num = parseFloat(num).toExponential();
+  return parseFloat(num).toPrecision(5);
+}
+
 function refreshValue() {
   const display = document.querySelector(".result");
 
@@ -56,7 +62,11 @@ function refreshValue() {
         displayValue = `${element.textContent}`;
         elementIndicator = 0;
       } else {
-        displayValue += `${element.textContent}`;
+        if (`${displayValue}`.length < 15) {
+          displayValue += `${element.textContent}`;
+        } else {
+          alert('Display overflow! Use the "*10^" instead');
+        }
       }
       display.textContent = displayValue;
     });
@@ -87,6 +97,11 @@ function refreshValue() {
       if (elementSave.length == 2) {
         displayValue = operate(+storeValue, +displayValue, elementSave[0]);
         elementSave.shift();
+        display.textContent = displayValue;
+      }
+
+      if (`${displayValue}`.length >= 16 || displayValue > 1e16) {
+        displayValue = overflowControl(displayValue);
         display.textContent = displayValue;
       }
 

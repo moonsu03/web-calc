@@ -38,7 +38,6 @@ body {
 button {
   width: 100px;
   padding: 20px;
-  border: solid 2px rgba(102, 97, 97, 0.76);
   background-color: rgb(255, 255, 210);
 }
 
@@ -51,18 +50,22 @@ button:active {
 }
 
 button,
-.result,
 .result-container {
   margin: 2px 2px 0px 0px;
   box-sizing: border-box;
   border-radius: 3px;
+  border: solid 2px rgba(102, 97, 97, 0.76);
 }
 
 .result-container {
   margin-top: 3px;
   width: 406px;
   justify-content: end;
-  border: 2px solid rgba(102, 97, 97, 0.76);
+  padding-right: 2px;
+}
+
+.result {
+  font-size: 36px;
 }
 
 .digits button {
@@ -89,10 +92,10 @@ button,
   background-color: lightblue;
 }
 
-.operators button:hover {
+.operators button:hover{
   background-color: rgb(195, 237, 252);
 }
 
-.operators button:active {
+.operators button:active{
   background-color: rgb(162, 199, 212);
 }
