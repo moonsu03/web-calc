@@ -1,51 +1,80 @@
 * {
-  font-family: "Roboto", sans-serif;
+  font-family: "Oxygen", sans-serif;
   margin: 0;
   padding: 0;
-  font-size: 24px;
+  font-size: 30px;
 }
 
-body, .calculator, .content, .clear-and-backspace, .main.digits, .last-row {
+body,
+.calculator,
+.content,
+.result-container,
+.clear-and-backspace,
+.clear,
+.main.digits,
+.last-row {
   display: flex;
+  justify-content: center;
 }
 
 body {
   background-color: wheat;
-  justify-content: center;
   align-items: center;
   height: 100vh;
 }
 
-
 .calculator {
   border: 3px solid rgb(52, 52, 52);
   border-radius: 8px;
-  width: 408px; 
+  width: 408px;
   /* 
   do NOT set the height of a container -> causes the elements to collapse
   */
-  margin: 4px 4px 4px 4px;
   padding-left: 2px;
-  align-items: end;
   flex-direction: column;
   background-color: seashell;
 }
 
 button {
   width: 100px;
-  box-sizing: border-box;
   padding: 20px;
-  border-radius: 3px;
   border: solid 2px rgba(102, 97, 97, 0.76);
-  background-color: lightyellow;
+  background-color: rgb(255, 255, 210);
 }
 
-button, .result {
+button:hover {
+  background-color: white;
+}
+
+button:active {
+  background-color: rgb(241, 237, 188);
+}
+
+button,
+.result,
+.result-container {
   margin: 2px 2px 0px 0px;
+  box-sizing: border-box;
+  border-radius: 3px;
+}
+
+.result-container {
+  margin-top: 3px;
+  width: 406px;
+  justify-content: end;
+  border: 2px solid rgba(102, 97, 97, 0.76);
 }
 
 .digits button {
-  background-color: palegoldenrod;
+  background-color: rgb(252, 245, 176);
+}
+
+.digits button:hover {
+  background-color: rgb(255, 249, 196);
+}
+
+.digits button:active {
+  background-color: rgb(243, 234, 149);
 }
 
 .main.digits {
@@ -53,10 +82,17 @@ button, .result {
 }
 
 .point {
-  margin-bottom: 2px;
+  margin-bottom: 3px;
 }
 
 .operators button {
   background-color: lightblue;
 }
 
+.operators button:hover {
+  background-color: rgb(195, 237, 252);
+}
+
+.operators button:active {
+  background-color: rgb(162, 199, 212);
+}

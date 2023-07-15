@@ -30,7 +30,7 @@ function operate(firstNum, secondNum, operator) {
   } else if (operator == "/") {
     if (secondNum == 0) {
       alert("You can't do that");
-      return 0;
+      return NaN;
     } else {
       return divide(firstNum, secondNum);
     }
