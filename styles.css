@@ -1,0 +1,62 @@
+* {
+  font-family: "Roboto", sans-serif;
+  margin: 0;
+  padding: 0;
+  font-size: 24px;
+}
+
+body, .calculator, .content, .clear-and-backspace, .main.digits, .last-row {
+  display: flex;
+}
+
+body {
+  background-color: wheat;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+
+.calculator {
+  border: 3px solid rgb(52, 52, 52);
+  border-radius: 8px;
+  width: 408px; 
+  /* 
+  do NOT set the height of a container -> causes the elements to collapse
+  */
+  margin: 4px 4px 4px 4px;
+  padding-left: 2px;
+  align-items: end;
+  flex-direction: column;
+  background-color: seashell;
+}
+
+button {
+  width: 100px;
+  box-sizing: border-box;
+  padding: 20px;
+  border-radius: 3px;
+  border: solid 2px rgba(102, 97, 97, 0.76);
+  background-color: lightyellow;
+}
+
+button, .result {
+  margin: 2px 2px 0px 0px;
+}
+
+.digits button {
+  background-color: palegoldenrod;
+}
+
+.main.digits {
+  flex-wrap: wrap;
+}
+
+.point {
+  margin-bottom: 2px;
+}
+
+.operators button {
+  background-color: lightblue;
+}
+

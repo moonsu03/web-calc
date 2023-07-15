@@ -40,14 +40,15 @@ function operate(firstNum, secondNum, operator) {
 function refreshValue() {
   const display = document.querySelector(".result");
 
-  var displayValue = "0";
+  var displayValue = "0"; //an onscreen value
 
   display.textContent = displayValue;
 
   const numberContainer = document.querySelectorAll(".digits button");
   const operateContainer = document.querySelectorAll(".operators button");
-  var storeValue = displayValue;
-  let elementIndicator = 0;
+  var storeValue = displayValue; //second value to save the previous value
+  let elementIndicator = 0; //this variable checks for ability to either add a new number
+  //or add numbers next to the displayed value
 
   numberContainer.forEach((element) => {
     element.addEventListener("click", () => {
@@ -55,15 +56,13 @@ function refreshValue() {
         displayValue = `${element.textContent}`;
         elementIndicator = 0;
       } else {
-        if (displayValue.length < 10) {
-          displayValue += `${element.textContent}`;
-        }
+        displayValue += `${element.textContent}`;
       }
       display.textContent = displayValue;
     });
   });
 
-  let elementSave = [];
+  let elementSave = []; //array that has a history of operators and always has two elements
 
   const clearButton = document.querySelector(".clear");
   clearButton.addEventListener("click", () => {
@@ -74,9 +73,10 @@ function refreshValue() {
 
   const pointContainer = document.querySelector(".point");
   pointContainer.addEventListener("click", () => {
-    if (displayValue.length < 8 && displayValue.indexOf(".") == -1) {
+    if (`${displayValue}`.indexOf(".") == -1) {
       displayValue += `.`;
-      display.textContent = displayValue;
+      display.textContent = `${displayValue}`;
+      elementIndicator = 0;
     }
   });
 
@@ -100,15 +100,6 @@ function refreshValue() {
         display.textContent = displayValue;
 
         displayValue = 0;
-      }
-
-      if (`${displayValue}`.length > 10 && elementIndicator > 0) {
-        displayValue = `${displayValue}`.substring(0, 10);
-        displayValue = +displayValue;
-        alert(
-          "Display overflow! (due to the floating point number or the really large by absolute value number) The first 10 characters are the display value now"
-        );
-        display.textContent = displayValue;
       }
     });
   });
