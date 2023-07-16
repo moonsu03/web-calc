@@ -66,7 +66,9 @@ function refreshValue() {
         if (`${displayValue}`.length < 16) {
           displayValue += `${element.textContent}`;
         } else {
-          alert("Display overflow! Please use other values by using backspace and e+");
+          alert(
+            "Display overflow! Please use other values by using backspace and e+"
+          );
         }
       }
       display.textContent = displayValue;
@@ -77,7 +79,7 @@ function refreshValue() {
 
   const clearButton = document.querySelector(".clear");
   clearButton.addEventListener("click", () => {
-    (displayValue = 0), (storeValue = 0), (elementIndicator = 0);
+    (displayValue = "0"), (storeValue = 0), (elementIndicator = 0);
     display.textContent = 0;
     elementSave = [];
   });
@@ -108,6 +110,22 @@ function refreshValue() {
   power.addEventListener("click", () => {
     if (`${displayValue}`.indexOf("e+") == -1) {
       displayValue += `e+`;
+      display.textContent = `${displayValue}`;
+      elementIndicator = 0;
+    }
+  });
+
+  const minus = document.querySelector(".plusminus");
+  minus.addEventListener("click", () => {
+    if (displayValue != 0) {
+      let saveValue = displayValue; // this variable is only for this function
+      displayValue = displayValue.split("");
+      if (saveValue > 0) {
+        displayValue.unshift("-");
+      } else {
+        displayValue.shift();
+      }
+      displayValue = displayValue.join("");
       display.textContent = `${displayValue}`;
       elementIndicator = 0;
     }
