@@ -63,7 +63,7 @@ function refreshValue() {
         displayValue = `${element.textContent}`;
         elementIndicator = 0;
       } else {
-        if (`${displayValue}`.length < 16) {
+        if (`${displayValue}`.length < 15) {
           displayValue += `${element.textContent}`;
         } else {
           alert(
@@ -141,27 +141,26 @@ function refreshValue() {
         display.textContent = displayValue;
       }
 
-      if (displayValue >= 1e16) {
-        displayValue = overflowControl(displayValue);
-        display.textContent = displayValue;
-      }
-
       if (elementSave[0] == "=") {
-        if (
-          displayValue.toString().indexOf("e+") !== -1 &&
-          displayValue < 1e16
-        ) {
-          displayValue = +displayValue;
-          display.textContent = displayValue;
-        }
         elementSave.shift();
         elementIndicator++;
+        if (
+          displayValue.toString().indexOf("e+") !== -1 &&
+          displayValue < 1e21
+        ) {
+          displayValue = +displayValue;
+          if (displayValue >= 1e12) {
+            displayValue = overflowControl(displayValue);
+          }
+          display.textContent = displayValue;
+        }
       } else {
         elementIndicator = 0;
         storeValue = displayValue;
-
+        if (displayValue >= 1e12) {
+          displayValue = overflowControl(displayValue);
+        }
         display.textContent = displayValue;
-
         displayValue = 0;
       }
       displayValue = displayValue.toString();
