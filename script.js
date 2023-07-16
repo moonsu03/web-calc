@@ -90,6 +90,19 @@ function refreshValue() {
     }
   });
 
+  const backspace = document.querySelector(".backspace");
+  backspace.addEventListener("click", () => {
+    displayValue = displayValue.toString();
+    displayValue = displayValue.split("");
+    if (displayValue.length >= 2) {
+      displayValue.pop();
+    } else {
+      displayValue[0] = 0;
+    }
+    displayValue = displayValue.join("");
+    display.textContent = `${displayValue}`;
+  });
+
   operateContainer.forEach((element) => {
     element.addEventListener("click", () => {
       elementSave.push(element.textContent);
@@ -100,7 +113,7 @@ function refreshValue() {
         display.textContent = displayValue;
       }
 
-      if (`${displayValue}`.length >= 16 || displayValue > 1e16) {
+      if (`${displayValue}`.length >= 17 || displayValue > 1e17) {
         displayValue = overflowControl(displayValue);
         display.textContent = displayValue;
       }
