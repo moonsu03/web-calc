@@ -146,14 +146,14 @@ function refreshValue() {
         elementIndicator++;
         if (
           displayValue.toString().indexOf("e+") !== -1 &&
-          displayValue < 1e21
+          displayValue <= 1e12
         ) {
           displayValue = +displayValue;
-          if (displayValue >= 1e12) {
-            displayValue = overflowControl(displayValue);
-          }
-          display.textContent = displayValue;
         }
+        if (displayValue >= 1e12) {
+          displayValue = overflowControl(displayValue);
+        }
+        display.textContent = displayValue;
       } else {
         elementIndicator = 0;
         storeValue = displayValue;
@@ -162,6 +162,10 @@ function refreshValue() {
         }
         display.textContent = displayValue;
         displayValue = 0;
+      }
+      if (displayValue >= 1e12) {
+        displayValue = overflowControl(displayValue);
+        display.textContent = displayValue;
       }
       displayValue = displayValue.toString();
     });
