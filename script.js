@@ -58,14 +58,15 @@ function refreshValue() {
 
   numberContainer.forEach((element) => {
     element.addEventListener("click", () => {
+      //displayValue here is always a string
       if (displayValue == "0" || elementIndicator > 0) {
         displayValue = `${element.textContent}`;
         elementIndicator = 0;
       } else {
-        if (`${displayValue}`.length < 15) {
+        if (`${displayValue}`.length < 16) {
           displayValue += `${element.textContent}`;
         } else {
-          alert('Display overflow! Use the "*10^" instead');
+          alert("Display overflow! Please use other values by using backspace and e+");
         }
       }
       display.textContent = displayValue;
@@ -92,7 +93,6 @@ function refreshValue() {
 
   const backspace = document.querySelector(".backspace");
   backspace.addEventListener("click", () => {
-    displayValue = displayValue.toString();
     displayValue = displayValue.split("");
     if (displayValue.length >= 2) {
       displayValue.pop();
@@ -101,6 +101,16 @@ function refreshValue() {
     }
     displayValue = displayValue.join("");
     display.textContent = `${displayValue}`;
+    elementIndicator = 0;
+  });
+
+  const power = document.querySelector(".power");
+  power.addEventListener("click", () => {
+    if (`${displayValue}`.indexOf("e+") == -1) {
+      displayValue += `e+`;
+      display.textContent = `${displayValue}`;
+      elementIndicator = 0;
+    }
   });
 
   operateContainer.forEach((element) => {
@@ -113,12 +123,19 @@ function refreshValue() {
         display.textContent = displayValue;
       }
 
-      if (`${displayValue}`.length >= 17 || displayValue > 1e17) {
+      if (displayValue >= 1e16) {
         displayValue = overflowControl(displayValue);
         display.textContent = displayValue;
       }
 
       if (elementSave[0] == "=") {
+        if (
+          displayValue.toString().indexOf("e+") !== -1 &&
+          displayValue < 1e16
+        ) {
+          displayValue = +displayValue;
+          display.textContent = displayValue;
+        }
         elementSave.shift();
         elementIndicator++;
       } else {
@@ -129,6 +146,7 @@ function refreshValue() {
 
         displayValue = 0;
       }
+      displayValue = displayValue.toString();
     });
   });
 }
