@@ -56,45 +56,53 @@ function refreshValue() {
   let elementIndicator = 0; //this variable checks for ability to either add a new number
   //or add numbers next to the displayed value
 
+  function pressNumber(elem) {
+    //displayValue here is always a string
+    if (displayValue == "0" || elementIndicator > 0) {
+      displayValue = `${elem}`;
+      elementIndicator = 0;
+    } else {
+      if (`${displayValue}`.length < 15) {
+        displayValue += `${elem}`;
+      } else {
+        alert(
+          "Display overflow! Please use other values by using backspace, e+ or ="
+        );
+      }
+    }
+    display.textContent = displayValue;
+  }
+
   numberContainer.forEach((element) => {
     element.addEventListener("click", () => {
-      //displayValue here is always a string
-      if (displayValue == "0" || elementIndicator > 0) {
-        displayValue = `${element.textContent}`;
-        elementIndicator = 0;
-      } else {
-        if (`${displayValue}`.length < 15) {
-          displayValue += `${element.textContent}`;
-        } else {
-          alert(
-            "Display overflow! Please use other values by using backspace and e+"
-          );
-        }
-      }
-      display.textContent = displayValue;
+      let elementNumber = `${element.textContent}`;
+      pressNumber(elementNumber);
     });
   });
 
   let elementSave = []; //array that has a history of operators and always has two elements
 
-  const clearButton = document.querySelector(".clear");
-  clearButton.addEventListener("click", () => {
+  function clear() {
     (displayValue = "0"), (storeValue = 0), (elementIndicator = 0);
     display.textContent = 0;
     elementSave = [];
-  });
+  }
 
-  const pointContainer = document.querySelector(".point");
-  pointContainer.addEventListener("click", () => {
+  const clearButton = document.querySelector(".clear");
+  clearButton.addEventListener("click", clear);
+
+  function point() {
     if (`${displayValue}`.indexOf(".") == -1) {
       displayValue += `.`;
       display.textContent = `${displayValue}`;
       elementIndicator = 0;
     }
-  });
+  }
 
-  const backspace = document.querySelector(".backspace");
-  backspace.addEventListener("click", () => {
+  const pointContainer = document.querySelector(".point");
+  pointContainer.addEventListener("click", point);
+
+  function backspaceFunction() {
     displayValue = displayValue.split("");
     if (displayValue.length >= 2) {
       displayValue.pop();
@@ -104,19 +112,23 @@ function refreshValue() {
     displayValue = displayValue.join("");
     display.textContent = `${displayValue}`;
     elementIndicator = 0;
-  });
+  }
 
-  const power = document.querySelector(".power");
-  power.addEventListener("click", () => {
+  const backspace = document.querySelector(".backspace");
+  backspace.addEventListener("click", backspaceFunction);
+
+  function powerFunction() {
     if (`${displayValue}`.indexOf("e+") == -1) {
       displayValue += `e+`;
       display.textContent = `${displayValue}`;
       elementIndicator = 0;
     }
-  });
+  }
 
-  const minus = document.querySelector(".plusminus");
-  minus.addEventListener("click", () => {
+  const power = document.querySelector(".power");
+  power.addEventListener("click", powerFunction);
+
+  function minusFunction() {
     if (displayValue != 0) {
       let saveValue = displayValue; // this variable is only for this function
       displayValue = displayValue.split("");
@@ -129,47 +141,71 @@ function refreshValue() {
       display.textContent = `${displayValue}`;
       elementIndicator = 0;
     }
-  });
+  }
 
-  operateContainer.forEach((element) => {
-    element.addEventListener("click", () => {
-      elementSave.push(element.textContent);
+  const minus = document.querySelector(".plusminus");
+  minus.addEventListener("click", minusFunction);
 
-      if (elementSave.length == 2) {
-        displayValue = operate(+storeValue, +displayValue, elementSave[0]);
-        elementSave.shift();
-        display.textContent = displayValue;
-      }
+  function operation(elem) {
+    elementSave.push(elem);
+    if (elementSave.length == 2) {
+      displayValue = operate(+storeValue, +displayValue, elementSave[0]);
+      elementSave.shift();
+      display.textContent = displayValue;
+    }
 
-      if (elementSave[0] == "=") {
-        elementSave.shift();
-        elementIndicator++;
-        if (
-          displayValue.toString().indexOf("e+") !== -1 &&
-          displayValue <= 1e12
-        ) {
-          displayValue = +displayValue;
-        }
-        if (displayValue >= 1e12) {
-          displayValue = overflowControl(displayValue);
-        }
-        display.textContent = displayValue;
-      } else {
-        elementIndicator = 0;
-        storeValue = displayValue;
-        if (displayValue >= 1e12) {
-          displayValue = overflowControl(displayValue);
-        }
-        display.textContent = displayValue;
-        displayValue = 0;
+    if (elementSave[0] == "=") {
+      elementSave.shift();
+      elementIndicator++;
+      //convert small e+ numbers to normal numbers by pressing =
+      if (
+        displayValue.toString().indexOf("e+") !== -1 &&
+        displayValue <= 1e12
+      ) {
+        displayValue = +displayValue;
       }
       if (displayValue >= 1e12) {
         displayValue = overflowControl(displayValue);
-        display.textContent = displayValue;
       }
-      displayValue = displayValue.toString();
+      display.textContent = displayValue;
+    } else {
+      elementIndicator = 0;
+      storeValue = displayValue;
+      if (displayValue >= 1e12) {
+        displayValue = overflowControl(displayValue);
+      }
+      display.textContent = displayValue;
+      displayValue = 0;
+    }
+    displayValue = displayValue.toString();
+  }
+
+  operateContainer.forEach((element) => {
+    element.addEventListener("click", () => {
+      let operateElem = element.textContent;
+      operation(operateElem);
     });
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if ("0123456789".includes(e.key)) {
+      let elementNumber = `${e.key}`;
+      pressNumber(elementNumber);
+    } else if (e.key == "c") {
+      clear();
+    } else if (e.key == ".") {
+      point();
+    } else if (e.key == "Backspace") {
+      backspaceFunction();
+    } else if (e.key == "^") {
+      powerFunction();
+    } else if (e.key == "z") {
+      minusFunction();
+    } else if ("/*-+=".includes(e.key)) {
+      let operateElem = e.key;
+      operation(operateElem);
+    }
   });
 }
 
-refreshValue();
+refreshValue(); //main func
