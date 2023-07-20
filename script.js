@@ -164,14 +164,14 @@ function refreshValue() {
       ) {
         displayValue = +displayValue;
       }
-      if (displayValue >= 1e12) {
+      if (displayValue >= 1e12 || `${displayValue}`.length > 15) {
         displayValue = overflowControl(displayValue);
       }
       display.textContent = displayValue;
     } else {
       elementIndicator = 0;
       storeValue = displayValue;
-      if (displayValue >= 1e12) {
+      if (displayValue >= 1e12 `${displayValue}`.length > 15) {
         displayValue = overflowControl(displayValue);
       }
       display.textContent = displayValue;
