@@ -129,17 +129,31 @@ function refreshValue() {
   power.addEventListener("click", powerFunction);
 
   function minusFunction() {
-    if (displayValue != 0) {
+    if (displayValue != 0 || storeValue != 0) {
+      console.log(displayValue, storeValue);
+      if (displayValue == 0) {
+        displayValue = storeValue;
+      }
       let saveValue = displayValue; // this variable is only for this function
-      displayValue = displayValue.split("");
+      console.log(displayValue, storeValue, saveValue);
+      displayValue = displayValue.toString().split("");
       if (saveValue > 0) {
         displayValue.unshift("-");
       } else {
         displayValue.shift();
       }
       displayValue = displayValue.join("");
+      if (displayValue >= 1e12 || displayValue <= -1e12) {
+        displayValue = overflowControl(displayValue);
+      }
+      storeValue = -storeValue;
+      console.log(displayValue, storeValue);
       display.textContent = `${displayValue}`;
-      elementIndicator = 0;
+      if (elementSave.length == 0) {
+        elementIndicator = 0;
+      } else {
+        elementIndicator++;
+      }
     }
   }
 
@@ -159,19 +173,20 @@ function refreshValue() {
       elementIndicator++;
       //convert small e+ numbers to normal numbers by pressing =
       if (
-        displayValue.toString().indexOf("e+") !== -1 &&
-        displayValue <= 1e12
+        (displayValue.toString().indexOf("e+") !== -1 &&
+          displayValue <= 1e12) ||
+        displayValue <= -1e12
       ) {
         displayValue = +displayValue;
       }
-      if (displayValue >= 1e12) {
+      if (displayValue >= 1e12 || displayValue <= -1e12) {
         displayValue = overflowControl(displayValue);
       }
       display.textContent = displayValue;
     } else {
       elementIndicator = 0;
       storeValue = displayValue;
-      if (displayValue >= 1e12) {
+      if (displayValue >= 1e12 || displayValue <= -1e12) {
         displayValue = overflowControl(displayValue);
       }
       display.textContent = displayValue;
